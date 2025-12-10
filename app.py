@@ -96,7 +96,8 @@ uploaded_file = st.file_uploader("Carregar planilha de funcionários (.xlsx)", t
 
 if uploaded_file:
     try:
-        df = pd.read_excel(uploaded_file, engine='openpyxl')
+        # Forçar CPF e RG como texto para preservar zeros à esquerda
+        df = pd.read_excel(uploaded_file, engine='openpyxl', dtype={'cpf': str, 'rg': str, 'matricula': str})
 
         st.subheader("Pré-visualização da base carregada")
         st.dataframe(df.head())
@@ -106,6 +107,14 @@ if uploaded_file:
 
         # Normalizar nomes das colunas para evitar problemas
         df.columns = [col.strip().lower() for col in df.columns]
+        
+        # Converter CPF, RG e Matricula para string para preservar zeros à esquerda
+        if 'cpf' in df.columns:
+            df['cpf'] = df['cpf'].astype(str)
+        if 'rg' in df.columns:
+            df['rg'] = df['rg'].astype(str)
+        if 'matricula' in df.columns:
+            df['matricula'] = df['matricula'].astype(str)
 
         # Verificar colunas obrigatórias
         colunas_necessarias = [
