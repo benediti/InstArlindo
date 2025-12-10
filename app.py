@@ -224,10 +224,10 @@ if uploaded_file:
                 output.seek(0)
 
                 st.download_button(
-                    label="📥 Baixar Planilha Final (Excel)",
+                    label="📥 Baixar Planilha Final (Excel 97-2003)",
                     data=output,
-                    file_name="relacao_nominal_AGF.xlsx",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    file_name="relacao_nominal_AGF.xls",
+                    mime="application/vnd.ms-excel"
                 )
 
                 st.success(f"✅ Total de funcionários incluídos: {len(df_final)}")
