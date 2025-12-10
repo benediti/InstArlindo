@@ -96,7 +96,7 @@ uploaded_file = st.file_uploader("Carregar planilha de funcionários (.xlsx)", t
 
 if uploaded_file:
     try:
-        df = pd.read_excel(uploaded_file)
+        df = pd.read_excel(uploaded_file, engine='openpyxl')
 
         st.subheader("Pré-visualização da base carregada")
         st.dataframe(df.head())
@@ -195,7 +195,7 @@ if uploaded_file:
 
                 # Gerar arquivo Excel para download
                 output = BytesIO()
-                with pd.ExcelWriter(output, engine="openpyxl") as writer:
+                with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
                     df_final.to_excel(writer, index=False, sheet_name="AGF")
 
                 output.seek(0)
