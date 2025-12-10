@@ -97,7 +97,15 @@ uploaded_file = st.file_uploader("Carregar planilha de funcionários (.xlsx)", t
 if uploaded_file:
     try:
         # Forçar CPF e RG como texto para preservar zeros à esquerda
-        df = pd.read_excel(uploaded_file, engine='openpyxl', dtype={'cpf': str, 'rg': str, 'matricula': str})
+        # Salvar temporariamente para usar xlsxwriter
+        temp_file = BytesIO(uploaded_file.read())
+        uploaded_file.seek(0)
+        
+        try:
+            df = pd.read_excel(uploaded_file, dtype={'cpf': str, 'rg': str, 'matricula': str})
+        except ImportError:
+            # Se openpyxl não estiver disponível, tentar sem especificar engine
+            df = pd.read_excel(temp_file, dtype={'cpf': str, 'rg': str, 'matricula': str})
 
         st.subheader("Pré-visualização da base carregada")
         st.dataframe(df.head())
