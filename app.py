@@ -14,6 +14,9 @@ def validar_cpf(cpf):
     # Remove caracteres não numéricos
     cpf_limpo = re.sub(r'\D', '', str(cpf))
     
+    # Adicionar zeros à esquerda se necessário
+    cpf_limpo = cpf_limpo.zfill(11)
+    
     # Verifica se tem 11 dígitos
     if len(cpf_limpo) != 11:
         return False
@@ -44,6 +47,9 @@ def formatar_cpf(cpf):
         return ""
     
     cpf_limpo = re.sub(r'\D', '', str(cpf))
+    
+    # Adicionar zeros à esquerda se necessário para completar 11 dígitos
+    cpf_limpo = cpf_limpo.zfill(11)
     
     if len(cpf_limpo) == 11:
         return f"{cpf_limpo[:3]}.{cpf_limpo[3:6]}.{cpf_limpo[6:9]}-{cpf_limpo[9:]}"
